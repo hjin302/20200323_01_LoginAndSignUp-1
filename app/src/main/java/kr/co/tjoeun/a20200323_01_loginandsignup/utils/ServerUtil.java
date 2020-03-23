@@ -29,6 +29,7 @@ public class ServerUtil {
 //    서버 호스트 주소를 편하게 가져다 쓰려고 변수로 저장.
     private static final String BASE_URL = "http://192.168.0.236:5000";
 
+
     public static void postRequestLogin(Context context, String id, String pw, final JsonResponseHandler handler) {
 
         OkHttpClient client = new OkHttpClient();
@@ -46,6 +47,59 @@ public class ServerUtil {
                 .build();
 
 
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("서버연결실패", "연결안됨!");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+                String body = response.body().string();
+
+                try {
+                    JSONObject json = new JSONObject(body);
+
+                    if (handler != null) {
+                        handler.onResponse(json);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+
+    }
+
+//    파라미터 기초 구조 : 어떤화면 context / 무슨일 handler
+//    가운데 추가 고려 : 화면에서 어떤 데이터를 받아서 => 서버로 전달?
+    public static void putRequestSignUp(Context context, String id, String pw, String name, String phoneNum, final JsonResponseHandler handler) {
+
+        OkHttpClient client = new OkHttpClient();
+
+//        어느주소로? 기능 주소만 변경.
+        String urlStr = String.format("%s/auth", BASE_URL);
+
+//        어떤 데이터를 담아야하는지? API 명세 참조.
+        FormBody formData = new FormBody.Builder()
+                .add("login_id", id)
+                .add("password", pw)
+                .add("name", name)
+                .add("phone", phoneNum)
+                .build();
+
+//        어떤 메쏘드를 쓰는지?
+        Request request = new Request.Builder()
+                .url(urlStr)
+                .put(formData)
+                .build();
+
+
+//        건드릴 필요가 없는 부분.
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
