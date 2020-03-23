@@ -37,6 +37,7 @@
                 android:text="ID" />
 
             <EditText
+                android:id="@+id/emailEdt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="이메일 양식으로 입력"
@@ -72,6 +73,7 @@
                     android:text="회원가입" />
 
                 <Button
+                    android:id="@+id/loginBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
