@@ -58,6 +58,7 @@ public class ServerUtil {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
 //                연결 실패 처리
+                Log.e("서버연결실패", "연결안됨!");
             }
 
             @Override
