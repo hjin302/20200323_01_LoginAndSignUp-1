@@ -5,18 +5,17 @@ import android.content.SharedPreferences;
 
 public class ContextUtil {
 
-//    메모장파일 처럼 데이터를 저장할 공간의 이름으로 쓸 변수.
+    //    메모장파일 처럼 데이터를 저장할 공간의 이름으로 쓸 변수.
     private static final String prefName = "myPref";
 
-//    항목명도 자동완성 지원할수 있도록 미리 변수화.
+    //    항목명도 자동완성 지원할수 있도록 미리 변수화.
     private static final String EMAIL = "EMAIL";
-    private static final String ID_CHECK = "ID_CHECK";
+    private static final String AUTO_LOGIN_CHECK = "AUTO_LOGIN_CHECK";
     private static final String USER_TOKEN = "USER_TOKEN";
-
 
 //    해당 항목의 값을 저장(setter) / 조회(getter) 하는 메쏘드 두개.
 
-//    setter
+    //    setter
     public static void setEmail(Context context, String email) {
 
 //        메모장을 이용해서 값을 기록. => 메모장 파일부터 열어야 함.
@@ -30,7 +29,7 @@ public class ContextUtil {
 
     }
 
-//    getter
+    //    getter
     public static String getEmail(Context context) {
 //        메모장을 열어야 뭐라고 적혀있는지 확인 가능.
         SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
@@ -41,35 +40,24 @@ public class ContextUtil {
     }
 
 
-    public static void setIdCheck(Context context, boolean isCheck) {
+    public static void setAutoLoginCheck(Context context, boolean isCheck) {
         SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
-        pref.edit().putBoolean(ID_CHECK, isCheck).apply();
+        pref.edit().putBoolean(AUTO_LOGIN_CHECK, isCheck).apply();
     }
 
-    public static boolean isIdCheck(Context context) {
+    public static boolean isAutoLoginCheck(Context context) {
         SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
-        return pref.getBoolean(ID_CHECK, true);
+        return pref.getBoolean(AUTO_LOGIN_CHECK, true);
     }
 
-    public static void setUserToken(Context context, String token){
-        SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_WORLD_READABLE);
+    public static void setUserToken(Context context, String token) {
+        SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
         pref.edit().putString(USER_TOKEN, token).apply();
     }
 
-    public static String getUserToken(Context context){
-        SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_WORLD_READABLE);
+    public static String getUserToken(Context context) {
+        SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
         return pref.getString(USER_TOKEN, "");
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
