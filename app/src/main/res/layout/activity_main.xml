@@ -47,23 +47,26 @@
         </LinearLayout>
 
         <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="게시판 보기" />
-
-        <Button
+            android:id="@+id/goToBoardBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="사용자 목록 보기" />
+            android:text="게시판 보기"/>
+
+        <Button
+            android:id="@+id/goToUserListBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="사용자 목록 보기"/>
 
         <Button
             android:id="@+id/logoutBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="로그아웃" />
+            android:text="로그아웃"/>
+
 
 
     </LinearLayout>
