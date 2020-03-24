@@ -1,7 +1,4 @@
 package kr.co.tjoeun.a20200323_01_loginandsignup;
-
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,10 +6,11 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import androidx.databinding.DataBindingUtil;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kr.co.tjoeun.a20200323_01_loginandsignup.databinding.ActivityLoginBinding;
 import kr.co.tjoeun.a20200323_01_loginandsignup.databinding.ActivityLoginBinding;
 import kr.co.tjoeun.a20200323_01_loginandsignup.datas.User;
 import kr.co.tjoeun.a20200323_01_loginandsignup.utils.ContextUtil;
@@ -107,7 +105,7 @@ public class LoginActivity extends BaseActivity {
 
                                 JSONObject data = json.getJSONObject("data");
                                 JSONObject user = data.getJSONObject("user");
-                                String token = data.getString("token");
+                                final String token = data.getString("token");
 
 //                                로그인한 사람의 이름 / 폰번을 토스트로
 
@@ -120,6 +118,15 @@ public class LoginActivity extends BaseActivity {
                                     @Override
                                     public void run() {
                                         Toast.makeText(mContext, String.format("%s / %s", loginUser.getName(), loginUser.getPhone()), Toast.LENGTH_SHORT).show();
+
+//                                        따온 토큰을 SharedPreferences에 저장.
+//                                        => 로그인에 성공했다 + 내가 누군지 기록
+                                        ContextUtil.setUserToken(mContext, token);
+
+//                                        메인화면으로 진입 => 내 프로필 정보를 출력 => 저장된 토큰을 이용할 예정.
+                                        Intent intent = new Intent(mContext, MainActivity.class);
+                                        startActivity(intent);
+
                                     }
                                 });
 
