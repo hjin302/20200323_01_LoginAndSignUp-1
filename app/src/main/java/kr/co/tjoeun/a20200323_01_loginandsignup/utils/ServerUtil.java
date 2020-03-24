@@ -1,4 +1,6 @@
 package kr.co.tjoeun.a20200323_01_loginandsignup.utils;
+
+
 import android.content.Context;
 import android.util.Log;
 
@@ -263,6 +265,53 @@ public class ServerUtil {
             }
         });
 
+
+
+    }
+
+    public static void postRequestWriteBlack(Context context, String phone, String title, String content, final JsonResponseHandler handler) {
+
+        OkHttpClient client = new OkHttpClient();
+
+        String urlStr = String.format("%s/black_list", BASE_URL);
+
+        FormBody formData = new FormBody.Builder()
+                .add("title", title)
+                .add("phone_num", phone)
+                .add("content", content)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(urlStr)
+                .post(formData)
+                .header("X-Http-Token", ContextUtil.getUserToken(context))
+                .build();
+
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("서버연결실패", "연결안됨!");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+                String body = response.body().string();
+
+                try {
+                    JSONObject json = new JSONObject(body);
+
+                    if (handler != null) {
+                        handler.onResponse(json);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
 
     }
