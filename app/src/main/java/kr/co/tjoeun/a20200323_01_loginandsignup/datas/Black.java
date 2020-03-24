@@ -1,5 +1,7 @@
 package kr.co.tjoeun.a20200323_01_loginandsignup.datas;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +41,7 @@ public class Black implements Serializable {
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             black.createdAt.setTime(sdf.parse(json.getString("created_at")));
+
 
 
 
