@@ -23,6 +23,8 @@ public class EditBlackActivity extends BaseActivity {
     @Override
     public void setupEvents() {
 
+
+
     }
 
     @Override
