@@ -1,7 +1,5 @@
 package kr.co.tjoeun.a20200323_01_loginandsignup.datas;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,8 +17,15 @@ public class Black implements Serializable {
     private Calendar createdAt;
     private User writer;
 
+    //    Calendar => 양식으로 가공해서 String으로 반환.
+    public String getFormattedCreateAt() {
 
-    public static Black getBlackFromJson(JSONObject json){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 M월 d일 a h시 m분");
+        return sdf.format(this.createdAt.getTime());
+
+    }
+
+    public static Black getBlackFromJson(JSONObject json) {
 
         Black black = new Black();
 
@@ -31,31 +36,28 @@ public class Black implements Serializable {
             black.title = json.getString("title");
             black.content = json.getString("content");
 
-//            작성자 정보 파싱.
+//            작성자정보 파싱.
             JSONObject writer = json.getJSONObject("writer");
             black.writer = User.getUserFromJson(writer);
 
 //            작성 일시 => Calendar로 저장.
 //            String => Calendar 변환?
-//            Calendar => string 변환 ? simpledateformat
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            black.createdAt.setTime(sdf.parse(json.getString("created_at")));
 
+            black.createdAt = Calendar.getInstance();
 
+            black.createdAt.setTime(sdf.parse(json.getString("created_at")));  // Date => Cal에 담자.
 
 
 
         } catch (JSONException e) {
             e.printStackTrace();
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-
         return black;
-
     }
 
     public Black() {
