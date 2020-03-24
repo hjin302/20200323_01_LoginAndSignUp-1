@@ -178,6 +178,49 @@ public class ServerUtil {
 
     }
 
+    public static void getRequestBlackList(Context context, final JsonResponseHandler handler) {
+
+        OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(String.format("%s/black_list", BASE_URL)).newBuilder();
+//        urlBuilder.addEncodedQueryParameter("파라미터이름", "값");
+
+        String url = urlBuilder.build().toString();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Http-Token", ContextUtil.getUserToken(context))
+                .build(); // GET의 경우에는 메쏘드 지정 필요 없다. (제일 기본이라)
+
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("서버연결실패", "연결안됨!");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+                String body = response.body().string();
+
+                try {
+                    JSONObject json = new JSONObject(body);
+
+                    if (handler != null) {
+                        handler.onResponse(json);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+
+
+    }
 
 
     public static void getRequestUserList(Context context, String active, final JsonResponseHandler handler) {
